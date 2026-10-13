@@ -1,0 +1,26 @@
+# The vault-related parts of ~/.hermes/config.yaml. Merge them into your own config;
+# everything else (models, toolsets, gateway) stays as it is.
+# Replace /path/to/vault and /path/to/home with absolute paths. Hermes runs the hook without a
+# shell, so ~ and $HOME are not expanded mid-command. Quote a path that contains spaces.
+
+# Skills: Hermes loads the vault's skill folder live, the same folder Claude Code uses.
+# Nothing is copied into ~/.hermes, so there is one copy of every skill.
+skills:
+  external_dirs:
+    - /path/to/vault/.claude/skills
+
+# Privacy: every tool call goes through the vault's guard first.
+# fail_closed makes a crash or timeout of the hook block the call instead of allowing it.
+# Hermes asks you to approve a new hook command the first time it sees it.
+hooks:
+  pre_tool_call:
+    - matcher: ".*"
+      command: /usr/bin/env HERMES_VAULT="/path/to/vault" python3 /path/to/home/.hermes/agent-hooks/privacy-guard.py
+      timeout: 10
+      fail_closed: true
+
+# Memory: the path isn't configurable (hence the symlink, see 0 - System/memories/README.md),
+# but the limits and toggles are.
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
