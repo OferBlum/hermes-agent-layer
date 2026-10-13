@@ -41,8 +41,6 @@ The wrapper is a translator, not a policy. Hermes sends the tool call as JSON on
 wrapper hands it to the vault's `privacy_guard.py` (`--mode hermes` contract) and prints
 `{"decision": "block", ...}` or `{}`.
 
-Rule of thumb: **Hermes for anything under a minute** (quick questions, "jot this down" into
-`2 - Notes/`), **Claude Code for anything that changes the vault.**
 
 ## Files
 
